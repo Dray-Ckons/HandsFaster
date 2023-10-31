@@ -30,11 +30,21 @@
         android:id="@+id/buttonAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Sobre nosotros"
+        android:text="Detector de Gestos"
         app:layout_constraintBottom_toTopOf="@+id/buttonExit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/buttonPreferences" />
+
+    <Button
+        android:id="@+id/buttonAbout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Sobre nosotros"
+        app:layout_constraintBottom_toTopOf="@+id/buttonExit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonAbout" />
 
     <Button
         android:id="@+id/buttonExit"
