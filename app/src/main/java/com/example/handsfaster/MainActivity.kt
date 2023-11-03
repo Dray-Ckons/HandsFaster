@@ -183,17 +183,19 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         } else {
             mistakeCount++ // Aumenta el contador de errores
             score -= 2 // Decrementa el score en 2 si el gesto es incorrecto
+
+            if (mistakeCount >= 5) {
+                Toast.makeText(this, "Has cometido 5 errores. Reiniciando...", Toast.LENGTH_SHORT).show()
+                val intent = intent
+                finish()
+                startActivity(intent) // Reiniciar la actividad
+            }
             if (score < 0) {
                 // Asegúrate de que el score nunca sea negativo
                 score = 0
 
                 mediaPlayerDerrota.start() // Reproduce el sonido de derrota
-                if (mistakeCount >= 5) {
-                    Toast.makeText(this, "Has cometido 5 errores. Reiniciando...", Toast.LENGTH_SHORT).show()
-                    val intent = intent
-                    finish()
-                    startActivity(intent) // Reiniciar la actividad
-                }
+
             } else {
                 mediaPlayerDerrota.start() // Reproduce el sonido de derrota
             }
