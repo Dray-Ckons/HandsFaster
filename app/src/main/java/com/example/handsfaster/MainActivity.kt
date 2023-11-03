@@ -6,9 +6,11 @@ import android.media.MediaPlayer
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.widget.TextView
+import android.widget.Toast
 import java.util.*
 
 class MainActivity : AppCompatActivity(), View.OnTouchListener {
@@ -18,9 +20,14 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
     private lateinit var mediaPlayerDerrota: MediaPlayer
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var gestureTextView: TextView
+    private lateinit var scoreTextView: TextView
     private var playbackSpeed = 1.0f
     private var count = 0
     private var delay: Long = 5000
+    private var score = 0 // Variable global de score
+    private var requiredGesture = "" // Variable para el gesto requerido
+    private lateinit var gestureDetector: GestureDetector
+    private var mistakeCount = 0 // Variable para contar la cantidad de errores
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,21 +56,23 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
 
         // Implementación de la lógica del segundo código
         gestureTextView = findViewById(R.id.gestureTextView)
+        scoreTextView = findViewById(R.id.scoreTextView)
 
         val handler = Handler()
         val runnable = object : Runnable {
             override fun run() {
-                val random = Random().nextInt(4)
-                val gesture: String = when (random) {
-                    0 -> "arriba"
-                    1 -> "abajo"
-                    2 -> "derecha"
-                    else -> "izquierda"
+                val random = Random().nextInt(5)
+                requiredGesture = when (random) {
+                    0 -> "onScroll"
+                    1 -> "onSingleTapUp"
+                    2 -> "onLongPress"
+                    3 -> "onFling"
+                    else -> "onDragRight"
                 }
-                gestureTextView.text = gesture
+                gestureTextView.text = requiredGesture
                 count++
-                if (delay >= 1000){
-                    if (count % 3 == 0 ) {
+                if (delay >= 1000) {
+                    if (count % 3 == 0) {
                         delay = (delay - 500).toLong()
                     }
                 }
@@ -88,26 +97,108 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         speedHandler.postDelayed(object : Runnable {
             override fun run() {
                 if (count < 8) {
-                    playbackSpeed = ( playbackSpeed + 0.05f)
+                    playbackSpeed = (playbackSpeed + 0.05f)
                     mediaPlayer.playbackParams = mediaPlayer.playbackParams.setSpeed(playbackSpeed)
                     count++
                     speedHandler.postDelayed(this, 15000)
                 }
             }
         }, 10000)
+
+        // Inicializar el detector de gestos
+        gestureDetector = GestureDetector(this, GestureListener())
     }
 
     override fun onTouch(v: View?, event: MotionEvent): Boolean {
-        val height: Int = v?.height ?: 0
-        val touchY: Float = event.y
+        gestureDetector.onTouchEvent(event)
+        return true
+    }
 
-        if (touchY < height / 2) {
-            mediaPlayerVictoria.start()
-        } else {
-            mediaPlayerDerrota.start()
+    inner class GestureListener : GestureDetector.SimpleOnGestureListener() {
+
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            showToast("onSingleTapUp")
+            checkGesture("onSingleTapUp")
+            return true
         }
 
-        return true
+        override fun onLongPress(e: MotionEvent) {
+            showToast("onLongPress")
+            checkGesture("onLongPress")
+        }
+
+        override fun onFling(
+            e1: MotionEvent?, e2: MotionEvent,
+            velocityX: Float, velocityY: Float
+        ): Boolean {
+            showToast("onFling")
+            checkGesture("onFling")
+            return true
+        }
+
+        override fun onScroll(
+            e1: MotionEvent?, e2: MotionEvent,
+            distanceX: Float, distanceY: Float
+        ): Boolean {
+            when (requiredGesture) {
+                "onScroll" -> {
+                    if (distanceY > 0) {
+                        showToast("onScroll")
+                        checkGesture("onScroll")
+                    }
+                }
+                "onSingleTapUp" -> {
+                    if (distanceY < 0) {
+                        showToast("onSingleTapUp")
+                        checkGesture("onSingleTapUp")
+                    }
+                }
+                "onLongPress" -> {
+                    if (distanceX > 0) {
+                        showToast("onLongPress")
+                        checkGesture("onLongPress")
+                    }
+                }
+                "onFling" -> {
+                    if (distanceX < 0) {
+                        showToast("onFling")
+                        checkGesture("onFling")
+                    }
+                }
+                "onDragRight" -> {
+                    if (distanceX > 0) {
+                        showToast("onDragRight")
+                        checkGesture("onDragRight")
+                    }
+                }
+            }
+            return true
+        }
+    }
+
+    private fun checkGesture(gesture: String) {
+        if (gesture == requiredGesture) {
+            score++ // Incrementa el score en 1 si el gesto es correcto
+            mediaPlayerVictoria.start() // Reproduce el sonido de victoria
+        } else {
+            score -= 2 // Decrementa el score en 2 si el gesto es incorrecto
+            if (score < 0) {
+                // Asegúrate de que el score nunca sea negativo
+                score = 0
+                mistakeCount++ // Aumenta el contador de errores
+                mediaPlayerDerrota.start() // Reproduce el sonido de derrota
+                if (mistakeCount >= 5) {
+                    Toast.makeText(this, "Has cometido 5 errores. Reiniciando...", Toast.LENGTH_SHORT).show()
+                    val intent = intent
+                    finish()
+                    startActivity(intent) // Reiniciar la actividad
+                }
+            } else {
+                mediaPlayerDerrota.start() // Reproduce el sonido de derrota
+            }
+        }
+        // Actualiza el valor de scoreTextView
+        scoreTextView.text = "Score: $score"
     }
 
     override fun onResume() {
@@ -131,9 +222,11 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
         val volumeFloat = volume / 100.0f
         mediaPlayer.setVolume(volumeFloat, volumeFloat)
     }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }
-
-
 
 
 

@@ -6,14 +6,26 @@
 
     <!-- Agrega aquí tus elementos de diseño para la pantalla "Sobre nosotros" -->
 
-    <Button
-        android:id="@+id/buttonBackToHome"
+    <TextView
+        android:id="@+id/sacude_s_n"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Volver a Inicio"
+        android:text="el celular se a agitado: 0 Veces "
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <TextView
+        android:id="@+id/accelerometerValues"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Valores del acelerómetro: "
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

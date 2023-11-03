@@ -4,7 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- Agrega aquí tus elementos de diseño para la pantalla de inicio -->
 
     <Button
         android:id="@+id/buttonGame"
@@ -30,7 +29,7 @@
         android:id="@+id/buttonAbout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Detector de Gestos"
+        android:text="Detector Acelerometro"
         app:layout_constraintBottom_toTopOf="@+id/buttonExit"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
