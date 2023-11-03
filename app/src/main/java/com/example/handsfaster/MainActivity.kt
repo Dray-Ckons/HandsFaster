@@ -181,11 +181,12 @@ class MainActivity : AppCompatActivity(), View.OnTouchListener {
             score++ // Incrementa el score en 1 si el gesto es correcto
             mediaPlayerVictoria.start() // Reproduce el sonido de victoria
         } else {
+            mistakeCount++ // Aumenta el contador de errores
             score -= 2 // Decrementa el score en 2 si el gesto es incorrecto
             if (score < 0) {
                 // Asegúrate de que el score nunca sea negativo
                 score = 0
-                mistakeCount++ // Aumenta el contador de errores
+
                 mediaPlayerDerrota.start() // Reproduce el sonido de derrota
                 if (mistakeCount >= 5) {
                     Toast.makeText(this, "Has cometido 5 errores. Reiniciando...", Toast.LENGTH_SHORT).show()
