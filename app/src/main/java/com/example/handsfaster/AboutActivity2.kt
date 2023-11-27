@@ -26,7 +26,23 @@ class AboutActivity2 : AppCompatActivity() {
             "\n" +
             "adicional se implemento dentro de la clase de -borrador- mencionada en la versión anterior, un contador de -agitadas del celular- usando "+
             "el acelerómetro, este cuenta el movimiento en el eje X si varia en positivo o negativo en 8 unidades y luego lo vuelve a hacer en el valor contrario"+
-            " ósea +8 con -8 y -8 con +8 para recién contarlo como una sola sacudida"
+            " ósea +8 con -8 y -8 con +8 para recién contarlo como una sola sacudida\n\n"+
+
+            "Descripción de la versión 4:\n\n" +
+
+            "Se implementaron los detectores de agitacion o sacudidas dentro de la pantalla principal de juego -MainActivity- , dentro de esta además se implemento un"+
+            " contador del puntaje mas alto, indicador de dificultad y comprobacion de las variables de volumen, por otro lado en el sentido estetico"+
+            "se agregaron imagenes representativas al ganar, perder puntos (hacerlo bien o mal) y al superar el TopScore (record local de puntaje.\n" +
+            "\n" +
+            "\n" +
+            "En otras cosas se elimino la clase de -borrador- mencionada en la versiones anteriores, pero se uso para la implementacion de distintas formas de persistencia de datos "+
+            "para logara hacer una nueva ventana de ajustes que si pudiera tener no solo persistencia de datos si no ademas el poder acceder a estos desde otra activity"+
+            " y ya con eso logar terminar la implementacion completa de puntos de la versiones anteriores"
+
+
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_about2)

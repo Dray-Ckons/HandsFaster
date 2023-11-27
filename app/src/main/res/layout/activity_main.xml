@@ -12,10 +12,55 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:id="@+id/scoreTextView"
+        android:id="@+id/NivelDeDificultadTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        android:text="Dificil"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/textViewMusicVolumeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+
+        android:text="50"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/textViewEffectsVolumeNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:layout_marginRight="32dp"
+        android:layout_marginLeft="32dp"
+
+        android:text="50"
+        android:textSize="20sp" />
+
+    <TextView
+        android:id="@+id/topScoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gestureTextView"
+        android:layout_alignBottom="@+id/gestureTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="300dp"
+        android:text="Top Score: 0"
+        android:textSize="24sp" />
+
+    <TextView
+        android:id="@+id/scoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/gestureTextView"
+        android:layout_alignBottom="@+id/gestureTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="260dp"
         android:text="Score: 0"
         android:textSize="24sp" />
 
@@ -27,5 +72,15 @@
         android:textSize="24sp"
         android:layout_centerInParent="true" />
 
+    <ImageView
+        android:id="@+id/bien_mal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/imagen_inicial"
+        android:layout_below="@id/gestureTextView"
+        android:layout_centerHorizontal="true"
+        />
+
 </RelativeLayout>
+
 
